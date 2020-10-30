@@ -1,9 +1,11 @@
 import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
 import itertools
+import time
 
 
 def apriori_frequent_item_sets(data_frame, min_support, max_len):
+    item_set_dict = {}
     all_ms = set()
     for i in range(1, 5):
         all_ms.add(f'M{i}')
@@ -17,6 +19,7 @@ def apriori_frequent_item_sets(data_frame, min_support, max_len):
                 count += 1
         if count >= min_support:
             item_set_1.add(m)
+            item_set_dict[f'(\'{m}\')'] = count
 
     item_sets.append(item_set_1)
     for i in range(1, max_len):
@@ -44,10 +47,14 @@ def apriori_frequent_item_sets(data_frame, min_support, max_len):
                     count += 1
             if count >= min_support:
                 item_set.append(sub_set)
+                item_set_dict[str(sub_set)] = count
         item_sets.append(item_set)
-    return item_sets
+
+    for key in item_set_dict.keys():
+        print(f'{key} {item_set_dict[key]}')
 
 
+start_time = time.time()
 # df = pd.read_csv('transactionlarge.csv', header=None) # real data set
 df = pd.read_csv('transactionsmall.csv', header=None)  # test data set
 
@@ -63,7 +70,5 @@ te = TransactionEncoder()
 te_array = te.fit(data_set).transform(data_set)
 
 data_frame = pd.DataFrame(te_array, columns=te.columns_)
-print(data_frame)
-result = apriori_frequent_item_sets(data_frame, 2, 3)
-print(result)
-
+apriori_frequent_item_sets(data_frame, 2, 3)
+print(f'Runtime: {time.time() - start_time} seconds')
