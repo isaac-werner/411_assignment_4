@@ -7,7 +7,7 @@ import time
 def apriori_frequent_item_sets(data_frame, min_support, max_len):
     item_set_dict = {}
     all_ms = set()
-    for i in range(1, 5):
+    for i in range(1, 100):
         all_ms.add(f'M{i}')
 
     item_sets = []
@@ -33,7 +33,9 @@ def apriori_frequent_item_sets(data_frame, min_support, max_len):
 
         sub_sets = set(itertools.combinations(all_entries, i + 1))
         item_set = []
+        h = 1
         for sub_set in sub_sets:
+            h += 1
             count = 0
             in_row = False
             for index, row in data_frame.iterrows():
@@ -55,8 +57,8 @@ def apriori_frequent_item_sets(data_frame, min_support, max_len):
 
 
 start_time = time.time()
-# df = pd.read_csv('transactionlarge.csv', header=None) # real data set
-df = pd.read_csv('transactionsmall.csv', header=None)  # test data set
+df = pd.read_csv('transactionlarge.csv', header=None)  # real data set
+# df = pd.read_csv('transactionsmall.csv', header=None)  # test data set
 
 data_set = []
 for index, row in df.iterrows():
@@ -70,5 +72,5 @@ te = TransactionEncoder()
 te_array = te.fit(data_set).transform(data_set)
 
 data_frame = pd.DataFrame(te_array, columns=te.columns_)
-apriori_frequent_item_sets(data_frame, 2, 3)
+apriori_frequent_item_sets(data_frame, 5, 3)
 print(f'Runtime: {time.time() - start_time} seconds')
