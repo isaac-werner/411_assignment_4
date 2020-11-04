@@ -8,26 +8,26 @@ var x = d3.scale.linear().range([0, width]);
 
 var chart = d3.select(".chart")
         .attr("width", width + margin.left + margin.right);
-        
+
 var allgroup = chart.append("g")   
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
 var tooltip = chart.append("text")
         .style("visibility", "hidden");        
 	
-d3.tsv("data.tsv", type, function(error, data) {
+d3.tsv("state_population_gdp.tsv", type, function(error, data) {
 
-	x.domain([0, d3.max(data, function(d) { return d.value; })]);
+	x.domain([0, d3.max(data, function(d) { return d.population; })]);
 
 	chart.attr("height", margin.top + barHeight * data.length);
 
 	var bar = allgroup.selectAll("g")
 			.data(data)
 		.enter().append("g")
-			.attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
-
+                        .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+                        
 	bar.append("rect")
-        .attr("width", function(d) { return x(d.value); })
+        .attr("width", function(d) { return x(d.population); })
         .attr("height", barHeight - 1)      
         .on("mouseover", function(d, i){
             var tipx = d3.select(this).attr("width");
@@ -38,19 +38,19 @@ d3.tsv("data.tsv", type, function(error, data) {
             tooltip.attr("dy", 35);
             tooltip.style("visibility", "visible");
             tooltip.style("fill", "black");
-            tooltip.text(d.value);})
+            tooltip.text(d.population);})
         .on("mouseout", function(){
             tooltip.style("visibility", "hidden");});
 
     bar.append("text")
-        .attr("x", function(d) { return x(d.value) - 3; })
+        .attr("x", function(d) { return x(d.population) - 3; })
         .attr("y", barHeight / 2)
         .attr("dy", ".35em")
-        .text(function(d) { return d.value; }); 
+        .text(function(d) { return d.population; }); 
 });
 
 function type(d) {
-	d.value = +d.value;
+	d.population = +d.population;
 	return d;
 }
 
