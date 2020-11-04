@@ -8,7 +8,7 @@ var x = d3.scale.linear().range([0, width]);
 
 var chart = d3.select(".chart")
         .attr("width", width + margin.left + margin.right);
-    
+        
 var allgroup = chart.append("g")   
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
