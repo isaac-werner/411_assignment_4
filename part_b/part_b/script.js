@@ -1,3 +1,5 @@
+// import * as d3 from d3
+
 var margin = {top: 20, right: 30, bottom: 30, left: 20};
 var width = 500 - margin.left - margin.right;
 var barHeight = 20;
