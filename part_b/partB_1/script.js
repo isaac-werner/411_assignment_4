@@ -1,6 +1,9 @@
+console.log('change3')
 var margin = {top: 20, right: 30, bottom: 30, left: 20};
-var width = 500 - margin.left - margin.right;
-var barHeight = 20;
+// var width = 500 - margin.left - margin.right;
+var width = 20;
+// var barHeight = 20;
+var barHeight = 500 - margin.top - margin.bottom
 				
 var x = d3.scale.linear().range([0, width]);
 
@@ -23,8 +26,8 @@ d3.tsv("state_population_gdp.tsv", type, function(error, data) {
 		.enter().append("g")
                         .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
 	bar.append("rect")
-        .attr("width", function(d) { return x(d.population); })
-        .attr("height", barHeight - 1)      
+        .attr("height", function(d) { return x(d.population); })
+        .attr("width", barHeight - 1)      
         .on("mouseover", function(d, i){
             var tipx = d3.select(this).attr("width");
             var tipy = barHeight* i;
